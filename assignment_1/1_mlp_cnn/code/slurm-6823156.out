@@ -1,0 +1,12 @@
+********************************************************************************************
+** WARNING: 'The 'CUDA/11.0.3-GCC-9.3.0' module will be removed on 02-11-2020. Please switch to CUDA/11.0.2-GCC-9.3.0
+             If you have any question, please contact us via http://servicedesk.surfsara.nl.'
+********************************************************************************************
+ERROR: Unable to locate a modulefile for 'eb'
+Traceback (most recent call last):
+  File "train_convnet_pytorch.py", line 12, in <module>
+srun: error: r31n5: task 0: Exited with exit code 1
+    from convnet_pytorch import ConvNet
+  File "/home/lgpu0417/DL_2020/assignment_1/1_mlp_cnn/code/convnet_pytorch.py", line 9, in <module>
+    import torch.nn as nn
+ModuleNotFoundError: No module named 'torch'

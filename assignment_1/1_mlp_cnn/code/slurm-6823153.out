@@ -1,0 +1,10 @@
+WARNING: $LD_LIBRARY_PATH does not agree with $LD_LIBRARY_PATH_modshare counter. The following directories' usage counters were adjusted to match. Note that this may mean that module unloading may not work correctly.
+ /sara/sw/torque/lib /hpc/eb/Debian9/CUDA/9.0.176/lib64 /hpc/sw/NCCL/2.0.5/lib /sara/sw/libgfortran/32/1/lib /hpc/eb/Debian9/cuDNN/7.0.5-CUDA-9.0.176/lib64 /hpc/eb/Debian9/CUDA/9.0.176/extras/CUPTI/lib64 /hpc/eb/Debian9/OpenMPI/2.1.1-GCC-6.4.0-2.28/lib /sara/sw/oldwheezy-1.0/lib
+ERROR: Unable to locate a modulefile for 'eb'
+Traceback (most recent call last):
+  File "train_convnet_pytorch.py", line 12, in <module>
+srun: error: r31n5: task 0: Exited with exit code 1
+    from convnet_pytorch import ConvNet
+  File "/home/lgpu0419/DL_2020/assignment_1/1_mlp_cnn/code/convnet_pytorch.py", line 9, in <module>
+    import torch.nn as nn
+ModuleNotFoundError: No module named 'torch'

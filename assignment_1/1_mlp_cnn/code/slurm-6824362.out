@@ -1,0 +1,252 @@
+# conda environments:
+#
+dl2020                   /home/lgpu0419/.conda/envs/dl2020
+base                  *  /sw/arch/Debian10/EB_production/2019/software/Miniconda3/4.7.10
+
+# packages in environment at /home/lgpu0419/.conda/envs/dl2020:
+#
+# Name                    Version                   Build  Channel
+_libgcc_mutex             0.1                        main    conda-forge
+absl-py                   0.10.0                   pypi_0    pypi
+argon2-cffi               20.1.0           py37h8f50634_2    conda-forge
+async_generator           1.10                       py_0    conda-forge
+attrs                     20.2.0             pyh9f0ad1d_0    conda-forge
+backcall                  0.2.0              pyh9f0ad1d_0    conda-forge
+backports                 1.0                        py_2    conda-forge
+backports.functools_lru_cache 1.6.1                      py_0    conda-forge
+blas                      1.0                         mkl    conda-forge
+bleach                    3.2.1              pyh9f0ad1d_0    conda-forge
+brotlipy                  0.7.0           py37hb5d75c8_1001    conda-forge
+ca-certificates           2020.6.20            hecda079_0    conda-forge
+cachetools                4.1.1                    pypi_0    pypi
+certifi                   2020.6.20        py37he5f6b98_2    conda-forge
+cffi                      1.14.3           py37he30daa8_0  
+chardet                   3.0.4           py37he5f6b98_1008    conda-forge
+cryptography              3.1.1            py37hff6837a_1    conda-forge
+cudatoolkit               10.1.243             h6bb024c_0  
+cycler                    0.10.0                   pypi_0    pypi
+decorator                 4.4.2                      py_0    conda-forge
+defusedxml                0.6.0                      py_0    conda-forge
+entrypoints               0.3             py37hc8dfbb8_1002    conda-forge
+freetype                  2.10.4               h5ab3b9f_0  
+fsspec                    0.8.4                    pypi_0    pypi
+future                    0.18.2                   pypi_0    pypi
+google-auth               1.22.1                   pypi_0    pypi
+google-auth-oauthlib      0.4.1                    pypi_0    pypi
+grpcio                    1.33.1                   pypi_0    pypi
+idna                      2.10               pyh9f0ad1d_0    conda-forge
+importlib-metadata        2.0.0                      py_1    conda-forge
+importlib_metadata        2.0.0                         1    conda-forge
+intel-openmp              2020.2                      254  
+ipykernel                 5.3.4            py37hc6149b9_1    conda-forge
+ipython                   7.18.1           py37hc6149b9_1    conda-forge
+ipython_genutils          0.2.0                      py_1    conda-forge
+ipywidgets                7.5.1                    pypi_0    pypi
+jedi                      0.17.2           py37hc8dfbb8_1    conda-forge
+jinja2                    2.11.2             pyh9f0ad1d_0    conda-forge
+jpeg                      9b                   h024ee3a_2  
+json5                     0.9.5              pyh9f0ad1d_0    conda-forge
+jsonschema                3.2.0                      py_2    conda-forge
+jupyter                   1.0.0                    pypi_0    pypi
+jupyter-console           6.2.0                    pypi_0    pypi
+jupyter_client            6.1.7                      py_0    conda-forge
+jupyter_core              4.6.3            py37hc8dfbb8_2    conda-forge
+jupyterlab                2.2.8                      py_0    conda-forge
+jupyterlab_pygments       0.1.2              pyh9f0ad1d_0    conda-forge
+jupyterlab_server         1.2.0                      py_0    conda-forge
+kiwisolver                1.2.0                    pypi_0    pypi
+lcms2                     2.11                 h396b838_0  
+ld_impl_linux-64          2.33.1               h53a641e_7    conda-forge
+libblas                   3.8.0                    20_mkl    conda-forge
+libcblas                  3.8.0                    20_mkl    conda-forge
+libedit                   3.1.20191231         h14c3975_1  
+libffi                    3.3                  he6710b0_2  
+libgcc-ng                 9.1.0                hdf63c60_0  
+liblapack                 3.8.0                    20_mkl    conda-forge
+libpng                    1.6.37               hbc83047_0  
+libsodium                 1.0.18               h516909a_1    conda-forge
+libstdcxx-ng              9.1.0                hdf63c60_0  
+libtiff                   4.1.0                h2733197_1  
+lz4-c                     1.9.2                heb0550a_3  
+markdown                  3.3.2                    pypi_0    pypi
+markupsafe                1.1.1            py37hb5d75c8_2    conda-forge
+matplotlib                3.3.2                    pypi_0    pypi
+mistune                   0.8.4           py37h8f50634_1002    conda-forge
+mkl                       2020.2                      256  
+mkl-service               2.3.0            py37he904b0f_0  
+mkl_fft                   1.2.0            py37h23d657b_0  
+mkl_random                1.1.1            py37h0573a6f_0  
+nbclient                  0.5.1                      py_0    conda-forge
+nbconvert                 6.0.7            py37hc8dfbb8_1    conda-forge
+nbformat                  5.0.8                      py_0    conda-forge
+ncurses                   6.2                  he6710b0_1  
+nest-asyncio              1.4.1                      py_0    conda-forge
+ninja                     1.10.1           py37hfd86e86_0  
+notebook                  6.1.4            py37hc8dfbb8_1    conda-forge
+numpy                     1.19.2                   pypi_0    pypi
+oauthlib                  3.1.0                    pypi_0    pypi
+olefile                   0.46                     py37_0  
+openssl                   1.1.1h               h516909a_0    conda-forge
+packaging                 20.4               pyh9f0ad1d_0    conda-forge
+pandas                    1.1.3                    pypi_0    pypi
+pandoc                    2.11.0.2             hd18ef5c_0    conda-forge
+pandocfilters             1.4.2                      py_1    conda-forge
+parso                     0.7.1              pyh9f0ad1d_0    conda-forge
+pexpect                   4.8.0              pyh9f0ad1d_2    conda-forge
+pickleshare               0.7.5                   py_1003    conda-forge
+pillow                    8.0.1            py37he98fc37_0  
+pip                       20.2.4                   py37_0  
+prometheus_client         0.8.0              pyh9f0ad1d_0    conda-forge
+prompt-toolkit            3.0.8                      py_0    conda-forge
+protobuf                  3.13.0                   pypi_0    pypi
+ptyprocess                0.6.0                   py_1001    conda-forge
+pyasn1                    0.4.8                    pypi_0    pypi
+pyasn1-modules            0.2.8                    pypi_0    pypi
+pycparser                 2.20               pyh9f0ad1d_2    conda-forge
+pygments                  2.7.1                      py_0    conda-forge
+pyopenssl                 19.1.0                     py_1    conda-forge
+pyparsing                 2.4.7              pyh9f0ad1d_0    conda-forge
+pyrsistent                0.17.3           py37h8f50634_1    conda-forge
+pysocks                   1.7.1            py37he5f6b98_2    conda-forge
+python                    3.7.9                h7579374_0  
+python-dateutil           2.8.1                      py_0    conda-forge
+python_abi                3.7                     1_cp37m    conda-forge
+pytorch                   1.6.0           py3.7_cuda10.1.243_cudnn7.6.3_0    pytorch
+pytorch-lightning         1.0.3                    pypi_0    pypi
+pytz                      2020.1                   pypi_0    pypi
+pyyaml                    5.3.1                    pypi_0    pypi
+pyzmq                     19.0.2           py37hac76be4_2    conda-forge
+qtconsole                 4.7.7                    pypi_0    pypi
+qtpy                      1.9.0                    pypi_0    pypi
+readline                  8.0                  h7b6447c_0  
+requests                  2.24.0             pyh9f0ad1d_0    conda-forge
+requests-oauthlib         1.3.0                    pypi_0    pypi
+rsa                       4.6                      pypi_0    pypi
+scipy                     1.5.3                    pypi_0    pypi
+seaborn                   0.11.0                   pypi_0    pypi
+send2trash                1.5.0                      py_0    conda-forge
+sentencepiece             0.1.91                   pypi_0    pypi
+setuptools                50.3.0           py37hb0f4dca_1  
+six                       1.15.0                     py_0  
+sqlite                    3.33.0               h62c20be_0  
+tabulate                  0.8.7                    pypi_0    pypi
+tensorboard               2.3.0                    pypi_0    pypi
+tensorboard-plugin-wit    1.7.0                    pypi_0    pypi
+terminado                 0.9.1            py37hc8dfbb8_1    conda-forge
+testpath                  0.4.4                      py_0    conda-forge
+tk                        8.6.10               hbc83047_0  
+torchtext                 0.7.0                    pypi_0    pypi
+torchvision               0.7.0                py37_cu101    pytorch
+tornado                   6.0.4            py37h8f50634_2    conda-forge
+tqdm                      4.50.2                   pypi_0    pypi
+traitlets                 5.0.5                      py_0    conda-forge
+urllib3                   1.25.11                    py_0    conda-forge
+wcwidth                   0.2.5              pyh9f0ad1d_2    conda-forge
+webencodings              0.5.1                      py_1    conda-forge
+werkzeug                  1.0.1                    pypi_0    pypi
+wheel                     0.35.1                     py_0  
+widgetsnbextension        3.5.1                    pypi_0    pypi
+xz                        5.2.5                h7b6447c_0  
+zeromq                    4.3.3                he1b5a44_2    conda-forge
+zipp                      3.3.1                      py_0    conda-forge
+zlib                      1.2.11               h7b6447c_3  
+zstd                      1.4.5                h9ceee32_0  
+learning_rate : 0.0001
+max_steps : 5000
+batch_size : 32
+eval_freq : 500
+data_dir : ./cifar10/cifar-10-batches-py
+(32, 3, 32, 32)
+ConvNet(
+  (conv0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (PreAct1): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(64, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (conv1): Conv2d(64, 128, kernel_size=(1, 1), stride=(1, 1))
+  (maxpool1): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (PreAct2_a): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (PreAct2_b): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(128, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (conv2): Conv2d(128, 256, kernel_size=(1, 1), stride=(1, 1))
+  (maxpool2): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (PreAct3_a): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (PreAct3_b): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (conv3): Conv2d(256, 512, kernel_size=(1, 1), stride=(1, 1))
+  (maxpool3): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (PreAct4_a): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (PreAct4_b): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (maxpool4): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (PreAct5_a): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (PreAct5_b): PreActBlock(
+    (net): Sequential(
+      (0): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (1): ReLU()
+      (2): Conv2d(512, 512, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+    )
+  )
+  (maxpool5): MaxPool2d(kernel_size=3, stride=2, padding=1, dilation=1, ceil_mode=False)
+  (fc): Linear(in_features=512, out_features=10, bias=True)
+)
+  0%|          | 0/5000 [00:00<?, ?it/s]torch.Size([32, 512])
+  0%|          | 0/5000 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "train_convnet_pytorch.py", line 195, in <module>
+    main()
+  File "train_convnet_pytorch.py", line 177, in main
+    model = train()
+  File "train_convnet_pytorch.py", line 137, in train
+    preds = model(x)
+  File "/home/lgpu0419/.conda/envs/dl2020/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/lgpu0419/DL_2020/assignment_1/1_mlp_cnn/code/convnet_pytorch.py", line 88, in forward
+    x = self.PreAct1(x)
+  File "/home/lgpu0419/.conda/envs/dl2020/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/home/lgpu0419/DL_2020/assignment_1/1_mlp_cnn/code/convnet_pytorch.py", line 151, in forward
+    out = z + x
+RuntimeError: CUDA out of memory. Tried to allocate 2.44 GiB (GPU 0; 10.92 GiB total capacity; 10.01 GiB already allocated; 303.44 MiB free; 10.04 GiB reserved in total by PyTorch)
