@@ -21,7 +21,7 @@ from torch.utils.tensorboard import SummaryWriter
 LEARNING_RATE_DEFAULT = 1e-4
 BATCH_SIZE_DEFAULT = 32
 MAX_STEPS_DEFAULT = 5000
-EVAL_FREQ_DEFAULT = 50
+EVAL_FREQ_DEFAULT = 500
 OPTIMIZER_DEFAULT = 'ADAM'
 
 # Directory in which cifar data is saved
@@ -128,11 +128,11 @@ def train():
             model.eval()
             # losses.append(loss.item())
             # accs.append(accuracy(preds.detach().cpu(),labels))
-            # print(data['test'].num_examples)
+            # print(data['test'].num_exampl)
             
             curr_acc_t = 0
             curr_l_t = 0
-            n_iters_test = int(10000/FLAGS.batch_size)
+            n_iters_test = int(data['test'].num_examples/FLAGS.batch_size)
             for t_it in tqdm(range(n_iters_test)):
                 
             # x      = data['test'].images
@@ -190,6 +190,7 @@ def main():
     
     # Run the training operation
     model = train()
+    torch.save(model.state_dict(),'models/best_model.pth')
 
 
 if __name__ == '__main__':
