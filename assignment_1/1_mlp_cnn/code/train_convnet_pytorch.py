@@ -21,7 +21,7 @@ from torch.utils.tensorboard import SummaryWriter
 LEARNING_RATE_DEFAULT = 1e-4
 BATCH_SIZE_DEFAULT = 32
 MAX_STEPS_DEFAULT = 5000
-EVAL_FREQ_DEFAULT = 500
+EVAL_FREQ_DEFAULT = 50
 OPTIMIZER_DEFAULT = 'ADAM'
 
 # Directory in which cifar data is saved
@@ -98,9 +98,10 @@ def train():
     val_losses = []
     val_accs =[]
     best_acc = 0 
-    
+    print('training...')
     # scheduler = StepLR(opt, step_size=10, gamma=0.9)
     for it in tqdm(range(FLAGS.max_steps)):
+        
         # for batch in range(10):
         # if it % 100 ==0 :
             # scheduler.step()
@@ -123,28 +124,42 @@ def train():
         writer.add_scalar('accs/train',accuracy(preds.detach().cpu(),labels), it)
 
         if it % FLAGS.eval_freq == 0 :
+            print('testing...')
             model.eval()
             # losses.append(loss.item())
             # accs.append(accuracy(preds.detach().cpu(),labels))
-        
+            # print(data['test'].num_examples)
             
-            x      = data['test'].images
-            labels = data['test'].labels
-            # x = x.reshape(np.size(x,0),-1)
-            x = torch.from_numpy(x).to(device)
-            label_idxs = torch.argmax(torch.from_numpy(labels),dim= 1).long().to(device)
-        
-            preds = model(x)
-            val_loss = crossE(preds,label_idxs)
-            # val_losses.append(val_loss.item())
-            # val_accs.append()
-            curr_acc = accuracy(preds.detach().cpu(),labels)
-            writer.add_scalar('accs/val',curr_acc, it)
-            writer.add_scalar('Loss/val',val_loss.item(), it)
+            curr_acc_t = 0
+            curr_l_t = 0
+            n_iters_test = int(10000/FLAGS.batch_size)
+            for t_it in tqdm(range(n_iters_test)):
+                
+            # x      = data['test'].images
+            # labels = data['test'].labels
+                x,labels = data['test'].next_batch(FLAGS.batch_size)
+                # print(x.shape)
+                # x = x.reshape(FLAGS.batch_size,3,32,32)
+                
+                # x = x.reshape(np.size(x,0),-1)
+                x = torch.from_numpy(x).to(device)
+                label_idxs = torch.argmax(torch.from_numpy(labels),dim= 1).long().to(device)
+            
+                preds = model(x)
+                val_loss = crossE(preds,label_idxs)
+                # val_losses.append(val_loss.item())
+                # val_accs.append()
+                curr_acc_t += accuracy(preds.detach().cpu(),labels)
+                curr_l_t += val_loss.item()
+            curr_acc_t = curr_acc_t / n_iters_test
+            curr_l_t = curr_l_t / n_iters_test
+            writer.add_scalar('accs/val',curr_acc_t, it)
+            writer.add_scalar('Loss/val',curr_l_t, it)
 
-            if curr_acc > best_acc:
-                best_acc = curr_acc
-                print('best model so far with validation accuracy of ', curr_acc)
+            if curr_acc_t > best_acc:
+                best_acc = curr_acc_t
+                print('best model so far with validation accuracy of ', curr_acc_t)
+            print('training...')
         x,labels = data['train'].next_batch(BATCH_SIZE_DEFAULT)
         x = x.reshape(FLAGS.batch_size,3,32,32)
         # x = x.reshape(np.size(x,0),-1)

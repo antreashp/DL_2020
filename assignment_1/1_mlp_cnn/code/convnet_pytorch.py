@@ -104,7 +104,7 @@ class ConvNet(nn.Module):
 		x = self.maxpool5(x)
 		x = x.view(x.size(0), -1) 
 		
-		print(x.shape)
+		# print(x.shape)
 		out =  self.fc(x)
 		########################
 		# END OF YOUR CODE    #
