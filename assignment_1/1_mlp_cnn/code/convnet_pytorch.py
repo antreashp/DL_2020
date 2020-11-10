@@ -56,9 +56,7 @@ class ConvNet(nn.Module):
 
 		
 		print(self)
-		
-		
-		
+				
 		
 		
 		

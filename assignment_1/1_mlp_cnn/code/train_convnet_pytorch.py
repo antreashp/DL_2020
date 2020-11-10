@@ -90,8 +90,8 @@ def train():
     model = ConvNet(3,10)
     model.to(device)
     crossE = nn.CrossEntropyLoss()
-    opt = torch.optim.SGD(model.parameters(), lr=FLAGS.learning_rate,momentum=0.7, nesterov=True)
-    # opt = torch.optim.Adam(model.parameters(),lr=FLAGS.learning_rate)
+    #opt = torch.optim.SGD(model.parameters(), lr=FLAGS.learning_rate,momentum=0.7, nesterov=True)
+    opt = torch.optim.Adam(model.parameters(),lr=FLAGS.learning_rate)
 
     losses = []
     accs = []
@@ -132,7 +132,7 @@ def train():
             
             curr_acc_t = 0
             curr_l_t = 0
-            n_iters_test = int(data['test'].num_examples/FLAGS.batch_size)
+            n_iters_test = int(len(data['test'].labels)/FLAGS.batch_size)
             for t_it in tqdm(range(n_iters_test)):
                 
             # x      = data['test'].images
