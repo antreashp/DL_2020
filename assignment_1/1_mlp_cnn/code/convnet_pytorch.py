@@ -51,6 +51,8 @@ class ConvNet(nn.Module):
 		self.PreAct5_a = 	PreActBlock(512, nn.ReLU, subsample=False, c_out=-1)
 		self.PreAct5_b = 	PreActBlock(512, nn.ReLU, subsample=False, c_out=-1)
 		self.maxpool5 = 	nn.MaxPool2d(3, 				stride= 2, padding = 1)
+		self.batchN_5 = nn.BatchNorm2d(512)
+		self.Relu5 = nn.ReLU()
 		self.fc = 			nn.Linear(512,10)
 
 
@@ -100,7 +102,9 @@ class ConvNet(nn.Module):
 		x = self.PreAct5_a(x)
 		x = self.PreAct5_b(x)
 		x = self.maxpool5(x)
-		x = x.view(x.size(0), -1) 
+		x = self.batchN_5 (x)
+		x = self.Relu5(x)
+		# x = x.view(x.size(0), -1) 
 		
 		# print(x.shape)
 		out =  self.fc(x)
@@ -127,24 +131,14 @@ class PreActBlock(nn.Module):
 		self.net = nn.Sequential(
 			nn.BatchNorm2d(c_in),
 			act_fn(),
-			nn.Conv2d(c_in, c_out, kernel_size=3, padding=1, stride=1 if not subsample else 2, bias=False),
-			# nn.BatchNorm2d(c_in),
-			# act_fn(),
-			# nn.Conv2d(c_in, c_out, kernel_size=3, padding=1, stride=1 , bias=False),
+			nn.Conv2d(c_in, c_out, kernel_size=3, padding=1, stride=1 if not subsample else 2, bias=False)
+
 			
 		)
 
-		# 1x1 convolution needs to apply non-linearity as well as not done on skip connection
-		self.downsample = nn.Sequential(
-			nn.BatchNorm2d(c_in),
-			act_fn(),
-			nn.Conv2d(c_in, c_out, kernel_size=1, stride=2, bias=False)
-		) if subsample else None
 
 
 	def forward(self, x):
 		z = self.net(x)
-		if self.downsample is not None:
-			x = self.downsample(x)
 		out = z + x
 		return out
