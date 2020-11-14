@@ -61,7 +61,7 @@ class MLP(object):
 				########################
 				# END OF YOUR CODE    #
 				#######################
-
+				# print(len(self.layers))
 		def forward(self, x):
 				# self.input_layer
 				"""
@@ -76,16 +76,21 @@ class MLP(object):
 				TODO:
 				Implement forward pass of the network.
 				"""
+				
+				########################
+				# PUT YOUR CODE HERE  #
+				#######################
 				# print(x[0])
 				# print(x[0].shape)
 				# norm = [float(i)/sum(x[0]) for i in x[0]]
 				# norm = [(float(i)-min(x[0]))/(max(x[0])-min(x[0])) for i in x[0]]
 				# print(norm)
 
-				########################
-				# PUT YOUR CODE HERE  #
-				#######################
-				for l in self.layers: # input and hidden 
+
+				# print('meh')
+				for l in self.layers: # input and hidden
+					
+					# print('here') 
 					x = l.forward(x)
 					x = self.Elu.forward(x)
 				x = self.out_layer.forward(x)
@@ -111,6 +116,8 @@ class MLP(object):
 				########################
 				# PUT YOUR CODE HERE  #
 				#######################
+				# dout = self.cros
+				# print('here')
 				dout = self.soft.backward(dout)
 				dout = self.out_layer.backward(dout)
 				for l in self.layers[::-1]:
@@ -124,16 +131,3 @@ class MLP(object):
 		# def make_layer():
 
 
-
-# class Neuron(object):
-# 	def __init__(self, activation=None,weight=None )
-# 		if weight is None:
-# 			self.weight = 0
-# 		else:
-# 			self.weight = weight
-		
-# 		if activation is None:
-# 			self.activation = 'Relu'
-# 		else:
-# 			self.activation = activation
-	

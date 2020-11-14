@@ -10,22 +10,23 @@ import argparse
 import numpy as np
 import os
 from mlp_numpy import MLP
-from modules import CrossEntropyModule
+from modules import CrossEntropyModule, LinearModule
 import cifar10_utils
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+
+from torch.utils.tensorboard import SummaryWriter
 # Default constants
 DNN_HIDDEN_UNITS_DEFAULT = '100'
 LEARNING_RATE_DEFAULT = 1e-3
 MAX_STEPS_DEFAULT = 600
 BATCH_SIZE_DEFAULT = 200
 EVAL_FREQ_DEFAULT = 100
-
+writer = SummaryWriter('runs/numpy')
 # Directory in which cifar data is saved
 DATA_DIR_DEFAULT = './cifar10/cifar-10-batches-py'
 
 FLAGS = None
-
 
 def accuracy(predictions, targets):
     """
@@ -85,12 +86,18 @@ def train():
     # PUT YOUR CODE HERE  #
     #######################
 
+    # module_1 = LinearModule(200, 10)
+    # rand_x = np.random.random((32, 200))
+    # print(module_1.forward(rand_x).shape)
+    # print(module_1.backward(dout=np.ones((32, 10))))
+    # exit(0)
 
     data = cifar10_utils.get_cifar10('cifar10/cifar-10-batches-py')
     x,labels = data['train'].next_batch(FLAGS.batch_size)
-    x = x.reshape(np.size(x,0),-1)
 
-    
+    x = x.reshape(np.size(x,0),-1)
+    # print(x.shape)
+    # exit(0)
 
 
 
@@ -106,27 +113,41 @@ def train():
     val_losses = []
     val_accs =[]
 
-
-    for it in tqdm(range(MAX_STEPS_DEFAULT)):
-        model = model.train()
-        x,labels = data['train'].next_batch(BATCH_SIZE_DEFAULT)
-        x = x.reshape(np.size(x,0),-1)
+    print('Training...')
+    for it in tqdm(range(FLAGS.max_steps)):
+        
+        # model = model.train()
+        # for l in model.layers:
+        #     # l.grads['weights'] = 
+        #     l.grads['weights'] = np.zeros_like(l.grads['weights'])
+        #     l.grads['bias'] = np.zeros_like(l.grads['bias'])
+        # x = np.ones_like(x)
+        
         preds = model.forward(x)       #frwrd
         loss = crossE.forward(preds,labels) #criterion
         # print(loss.shape)
         losses.append(loss)
         accs.append(accuracy(preds,labels))
+        # print(loss)
         d = crossE.backward(preds,labels) 
         model.backward(d)
 
+        # print(model.out_layer.grads['weights'])4
+        # print('meh')
         for l in model.layers: #update
-            l.params['weight'] = l.params['weights'] - FLAGS.learning_rate * l.grads['weights']
+            # print('here')
+            # print('here')
+            # print(l)
+            l.params['weights'] = l.params['weights'] - FLAGS.learning_rate * l.grads['weights']
             l.params['bias'] = l.params['bias'] - FLAGS.learning_rate * l.grads['bias']
-        model.out_layer.params['weight'] = model.out_layer.params['weight'] - FLAGS.learning_rate *model.out_layer.grads['weights']
+        model.out_layer.params['weights'] = model.out_layer.params['weights'] - FLAGS.learning_rate *model.out_layer.grads['weights']
         model.out_layer.params['bias'] = model.out_layer.params['bias'] - FLAGS.learning_rate *model.out_layer.grads['bias']
-        
+        # plot_grad_flow(model.named_parameters())
+        # print(model.out_layer.grads['weights'])
+        # exit()
         if it % FLAGS.eval_freq == 0:
-            model = model.eval()
+            # model = model.eval()
+            print('Testing...')
             x      = data['test'].images
             labels = data['test'].labels
             x = x.reshape(np.size(x,0),-1)
@@ -134,13 +155,14 @@ def train():
             val_loss = crossE.forward(preds,labels)
             val_losses.append(val_loss)
             val_accs.append(accuracy(preds,labels))
-            if val_accs[-1] == max(val_accs):
+            if val_accs[-1] > max(val_accs):
                 print('best model so far with validation accuracy of ', val_accs[-1])
-
+            print('Training...')
         # x,labels = data['train'].next_batch(BATCH_SIZE_DEFAULT)
 
         # x = x.reshape(np.size(x,0),-1)
-
+        x,labels = data['train'].next_batch(FLAGS.batch_size)
+        x = x.reshape(np.size(x,0),-1)
     return model,losses,val_losses,accs,val_accs
 
     ########################
