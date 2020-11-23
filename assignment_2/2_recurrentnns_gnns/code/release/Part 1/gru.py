@@ -36,6 +36,7 @@ class GRU(nn.Module):
         # END OF YOUR CODE    #
         #######################
 
+
     def forward(self, x):
         
         ########################

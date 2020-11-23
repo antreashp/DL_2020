@@ -26,61 +26,118 @@ import numpy as np
 
 import torch
 import torch.optim as optim
+from tqdm import tqdm
+from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import DataLoader
 
-from part2.dataset import TextDataset
-from part2.model import TextGenerationModel
-
+from dataset import TextDataset
+from model import TextGenerationModel
+writer = SummaryWriter('runs/s2slstm')
 ###############################################################################
+def my_accuracy(preds,trgs):
+    preds = preds.argmax(dim=1)
+    acc = (preds == trgs).float().mean()
+    # acc = [1 if preds[i] == trgs[i] else 0 for i in range(len(preds)) ].sum().mean()
+    return acc
+def gen_sentence(model,dataset,length,temp = 0):
+    char = torch.randint(0,dataset.vocab_size,(1,1))
+    sentence = []
+    h = None
+    model.eval()
+    for l in range(length):
+        # model.zero_grad()
 
+        preds,h = model.forward(char,h)
+        # print(preds)
+        # print(preds.argmax())
+        if temp == 0:
+            char[0,0] = preds.squeeze().argmax()
+        else:
+            pd = preds.squeeze()/temp
+            pd = torch.softmax(pd,dim=0)
+            char[0,0] = torch.multinomial(pd,1)
 
+        sentence.append(char.item())
+    # print(dataset.convert_to_string(sentence))
+    # exit()
+        # char[0,0] = 
+    return dataset.convert_to_string(sentence)
 def train(config):
 
     # Initialize the device which to run the model on
+    config.device = 'cuda:0' if torch.cuda.is_available() else 'cpu' 
     device = torch.device(config.device)
 
     # Initialize the dataset and data loader (note the +1)
-    dataset = TextDataset(...)  # fixme
+    book2_path = 'assets/book_EN_grimms_fairy_tails.txt'
+    dataset = TextDataset(book2_path,seq_length=config.seq_length)  # fixme
     data_loader = DataLoader(dataset, config.batch_size)
 
     # Initialize the model that we are going to use
-    model = TextGenerationModel(...)  # FIXME
-
+    model = TextGenerationModel(batch_size=config.batch_size, seq_length=config.seq_length, vocabulary_size=dataset.vocab_size)  # FIXME
+    model.to(device)
     # Setup the loss and optimizer
-    criterion = None  # FIXME
-    optimizer = None  # FIXME
+    criterion = torch.nn.CrossEntropyLoss()  # FIXME
+    # print(model.parameters)
+    optimizer = torch.optim.RMSprop(model.parameters(),lr=config.learning_rate)  # FIXME
 
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
+        model.train()
+        # print(t?orch.stack(batch_inputs))
+        # exit()?
+        # meh = [print(dataset.convert_to_string(list(x))) for x in batch_inputs]
+        # batch_inputs[0] = batch_inputs[0].numpy()
 
+        # batch_targets[0] = batch_targets[0].numpy()
+        # print(len(batch_inputs))
+        # print(len(batch_targets))
+        # print(list(batch_inputs[ 0]))
+
+        # print(dataset.convert_to_string(list(batch_inputs[0])))
+        # exit()
+        model.zero_grad()
         # Only for time measurement of step through network
         t1 = time.time()
 
         #######################################################
         # Add more code here ...
         #######################################################
-
-        loss = np.inf   # fixme
-        accuracy = 0.0  # fixme
-
+        batch_inputs = torch.stack(batch_inputs).to(device)
+        batch_targets = torch.stack(batch_targets,dim=1).to(device)
+        preds,(_ ,_)= model.forward(batch_inputs)
+        # print(preds.shape)
+        preds = preds.permute(1,2,0)
+        # exit()
+        # print(preds.shape)
+        loss = criterion(preds,batch_targets)   # fixme
+        accuracy = my_accuracy(preds,batch_targets)  # fixme
+        writer.add_scalar('Loss',loss.item(),step)
+        writer.add_scalar('Accuracy',accuracy*100,step)
+        loss.backward()
+        # print(loss)
+        # exit()
         # Just for time measurement
         t2 = time.time()
         examples_per_second = config.batch_size/float(t2-t1)
 
         if (step + 1) % config.print_every == 0:
 
-            print("[{}] Train Step {:04d}/{:04d}, Batch Size = {}, \
+            print("[{}] Train Step {:04d}, Batch Size = {}, \
                     Examples/Sec = {:.2f}, "
                   "Accuracy = {:.2f}, Loss = {:.3f}".format(
                     datetime.now().strftime("%Y-%m-%d %H:%M"), step,
-                    config.train_steps, config.batch_size, examples_per_second,
+                     config.batch_size, examples_per_second,
                     accuracy, loss
                     ))
 
         if (step + 1) % config.sample_every == 0:
             # Generate some sentences by sampling from the model
+            sentence = gen_sentence(model,dataset,30,temp = 0)
+            print(sentence)
             pass
 
         if step == config.train_steps:
+            torch.save(model.state_dict(), config.save_model)
             # If you receive a PyTorch data-loader error,
             # check this bug report:
             # https://github.com/pytorch/pytorch/pull/9655
@@ -108,7 +165,7 @@ if __name__ == "__main__":
                         help='Number of LSTM layers in the model')
 
     # Training params
-    parser.add_argument('--batch_size', type=int, default=64,
+    parser.add_argument('--batch_size', type=int, default=32,
                         help='Number of examples to process in a batch')
     parser.add_argument('--learning_rate', type=float, default=2e-3,
                         help='Learning rate')
@@ -129,7 +186,7 @@ if __name__ == "__main__":
     # Misc params
     parser.add_argument('--summary_path', type=str, default="./summaries/",
                         help='Output path for summaries')
-    parser.add_argument('--print_every', type=int, default=5,
+    parser.add_argument('--print_every', type=int, default=50,
                         help='How often to print training progress')
     parser.add_argument('--sample_every', type=int, default=100,
                         help='How often to sample from the model')

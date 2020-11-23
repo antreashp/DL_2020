@@ -21,14 +21,13 @@ import os
 import numpy as np
 import torch.utils.data as data
 
-
 class TextDataset(data.Dataset):
 
     def __init__(self, filename, seq_length):
         assert os.path.splitext(filename)[1] == ".txt"
         self._seq_length = seq_length
         self._data = open(filename, 'r').read()
-        self._chars = list(set(self._data))
+        self._chars = sorted(list(set(self._data)))
         self._data_size, self._vocab_size = len(self._data), len(self._chars)
         print("Initialize dataset with {} characters, {} unique.".format(
             self._data_size, self._vocab_size))
@@ -38,8 +37,15 @@ class TextDataset(data.Dataset):
 
     def __getitem__(self, item):
         offset = np.random.randint(0, len(self._data)-self._seq_length-2)
+        # print('meeh')
+        # print('inputs',self._data[offset:offset+self._seq_length])
         inputs = [self._char_to_ix[ch] for ch in self._data[offset:offset+self._seq_length]]
+        # print('meh')
+        # print('targets',self._data[offset+1:offset+self._seq_length+1])
+        # exit()
+        # print('inputs',inputs)
         targets = [self._char_to_ix[ch] for ch in self._data[offset+1:offset+self._seq_length+1]]
+        # print('targets',targets)
         return inputs, targets
 
     def convert_to_string(self, char_ix):
