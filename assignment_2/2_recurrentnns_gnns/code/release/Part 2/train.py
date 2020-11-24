@@ -39,7 +39,7 @@ def my_accuracy(preds,trgs):
     acc = (preds == trgs).float().mean()
     # acc = [1 if preds[i] == trgs[i] else 0 for i in range(len(preds)) ].sum().mean()
     return acc
-def gen_sentence(model,dataset,device,length,temp = 0):
+def gen_sentence(model,dataset,length,device,temp = 0):
     char = torch.randint(0,dataset.vocab_size,(1,1)).to(device)
     sentence = []
     h = None
