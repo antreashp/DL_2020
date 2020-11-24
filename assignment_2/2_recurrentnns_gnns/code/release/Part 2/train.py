@@ -104,16 +104,26 @@ def train(config):
         #######################################################
         batch_inputs = torch.stack(batch_inputs).to(device)
         batch_targets = torch.stack(batch_targets,dim=1).to(device)
+
+        # print(batch_inputs.shape)
+        # print(dataset.convert_to_string(list(batch_inputs[:,0].numpy())))
+        # exit()
         preds,(_ ,_)= model.forward(batch_inputs)
         # print(preds.shape)
+
         preds = preds.permute(1,2,0)
         # exit()
+        # batch_targets = batch_targets.unsqueeze(2)
+        # print(preds.shape)
+        # print(batch_targets.shape)
         # print(preds.shape)
         loss = criterion(preds,batch_targets)   # fixme
+        # print(loss)
         accuracy = my_accuracy(preds,batch_targets)  # fixme
         writer.add_scalar('Loss',loss.item(),step)
         writer.add_scalar('Accuracy',accuracy*100,step)
         loss.backward()
+        optimizer.step()
         # print(loss)
         # exit()
         # Just for time measurement
@@ -133,7 +143,13 @@ def train(config):
         if (step + 1) % config.sample_every == 0:
             # Generate some sentences by sampling from the model
             sentence = gen_sentence(model,dataset,30,temp = 0)
-            print(sentence)
+            print('temp = 0 : ',sentence)
+            sentence = gen_sentence(model,dataset,30,temp = 0.5)
+            print('temp = 0.5 : ',sentence)
+            sentence = gen_sentence(model,dataset,30,temp = 1)
+            print('temp = 1 : ',sentence)
+            sentence = gen_sentence(model,dataset,30,temp = 2)
+            print('temp = 2 : ',sentence)
             pass
 
         if step == config.train_steps:
