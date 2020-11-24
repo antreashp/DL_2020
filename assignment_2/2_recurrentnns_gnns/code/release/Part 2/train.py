@@ -39,8 +39,8 @@ def my_accuracy(preds,trgs):
     acc = (preds == trgs).float().mean()
     # acc = [1 if preds[i] == trgs[i] else 0 for i in range(len(preds)) ].sum().mean()
     return acc
-def gen_sentence(model,dataset,length,temp = 0):
-    char = torch.randint(0,dataset.vocab_size,(1,1))
+def gen_sentence(model,dataset,device,length,temp = 0):
+    char = torch.randint(0,dataset.vocab_size,(1,1)).to(device)
     sentence = []
     h = None
     model.eval()
@@ -142,13 +142,13 @@ def train(config):
 
         if (step + 1) % config.sample_every == 0:
             # Generate some sentences by sampling from the model
-            sentence = gen_sentence(model,dataset,30,temp = 0)
+            sentence = gen_sentence(model,dataset,30,device,temp = 0)
             print('temp = 0 : ',sentence)
-            sentence = gen_sentence(model,dataset,30,temp = 0.5)
+            sentence = gen_sentence(model,dataset,30,device,temp = 0.5)
             print('temp = 0.5 : ',sentence)
-            sentence = gen_sentence(model,dataset,30,temp = 1)
+            sentence = gen_sentence(model,dataset,30,device,temp = 1)
             print('temp = 1 : ',sentence)
-            sentence = gen_sentence(model,dataset,30,temp = 2)
+            sentence = gen_sentence(model,dataset,30,device,temp = 2)
             print('temp = 2 : ',sentence)
             pass
 
