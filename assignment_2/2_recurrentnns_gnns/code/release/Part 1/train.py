@@ -39,7 +39,9 @@ import numpy as np
 
 # You may want to look into tensorboardX for logging
 # from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 
+writer = SummaryWriter()
 ###############################################################################
 
 
@@ -64,7 +66,7 @@ def train(config):
     elif config.dataset == 'bss':
         print('Load bss dataset ...')
         # Initialize the dataset and data loader
-        config.num_classes = 2
+        config.num_classes = config.input_length
         config.input_dim = 3
         dataset = datasets.BaumSweetSequenceDataset(config.input_length)
         data_loader = DataLoader(dataset, config.batch_size, num_workers=1,
@@ -75,12 +77,12 @@ def train(config):
     elif config.dataset == 'bipalindrome':
         print('Load binary palindrome dataset ...')
         # Initialize the dataset and data loader
-        config.num_classes = config.input_length
+        config.num_classes = 2#config.input_length
         dataset = datasets.BinaryPalindromeDataset(config.input_length)
         data_loader = DataLoader(dataset, config.batch_size, num_workers=1,
                                  drop_last=True)
 
-        config.input_length = config.input_length*4+2-1
+        config.input_length =config.input_length*4+2-1
 
 
 
@@ -135,9 +137,21 @@ def train(config):
 
         # Forward pass
         log_probs = model(batch_inputs)
+        # print(log_probs.shape)
+        # print(log_probs.shape)
+        # print(batch_targets.shape)
+        # last_dig = log_probs[:,-1]
 
+        # last_dig = last_dig.reshape(config.batch_size,1)
+        # print(last_dig.shape)
+        # preds = last_dig
         # Compute the loss, gradients and update network parameters
+        # print(log_probs[0])
+        # print(log_probs.shape)
+        # print(batch_targets[0])
         loss = loss_function(log_probs, batch_targets)
+        # print(loss)
+        # exit()
         loss.backward()
 
         #######################################################################
@@ -152,6 +166,9 @@ def train(config):
         predictions = torch.argmax(log_probs, dim=1)
         correct = (predictions == batch_targets).sum().item()
         accuracy = correct / log_probs.size(0)
+        # print(loss.shape)
+        writer.add_scalar('Loss',loss.item(),step)
+        writer.add_scalar('Acc',accuracy,step)
 
         # print(predictions[0, ...], batch_targets[0, ...])
 
@@ -186,33 +203,33 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # dataset
-    parser.add_argument('--dataset', type=str, default='randomcomb',
+    parser.add_argument('--dataset', type=str, default='bipalindrome',
                         choices=['randomcomb', 'bss', 'bipalindrome'],
                         help='Dataset to be trained on.')
     # Model params
-    parser.add_argument('--model_type', type=str, default='biLSTM',
+    parser.add_argument('--model_type', type=str, default='peepLSTM',
                         choices=['LSTM', 'biLSTM', 'GRU', 'peepLSTM'],
                         help='Model type: LSTM, biLSTM, GRU or peepLSTM')
     parser.add_argument('--input_length', type=int, default=6,
                         help='Length of an input sequence')
-    parser.add_argument('--input_dim', type=int, default=1,
+    parser.add_argument('--input_dim', type=int, default=32,
                         help='Dimensionality of input sequence')
-    parser.add_argument('--num_classes', type=int, default=1,
+    parser.add_argument('--num_classes', type=int, default=2,
                         help='Dimensionality of output sequence')
-    parser.add_argument('--num_hidden', type=int, default=256,
+    parser.add_argument('--num_hidden', type=int, default=128,
                         help='Number of hidden units in the model')
 
     # Training params
     parser.add_argument('--batch_size', type=int, default=256,
                         help='Number of examples to process in a batch')
-    parser.add_argument('--learning_rate', type=float, default=0.001,
+    parser.add_argument('--learning_rate', type=float, default=0.0001,
                         help='Learning rate')
     parser.add_argument('--train_steps', type=int, default=3000,
                         help='Number of training steps')
     parser.add_argument('--max_norm', type=float, default=10.0)
 
     # Misc params
-    parser.add_argument('--device', type=str, default="cuda:0",
+    parser.add_argument('--device', type=str, default="cpu",
                         help="Training device 'cpu' or 'cuda:0'")
     parser.add_argument('--gpu_mem_frac', type=float, default=0.5,
                         help='Fraction of GPU memory to allocate')

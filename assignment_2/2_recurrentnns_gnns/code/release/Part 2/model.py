@@ -29,9 +29,9 @@ class TextGenerationModel(nn.Module):
         self.lstm_num_hidden = lstm_num_hidden
         self.seq_length = seq_length
         
-        self.embedding = nn.Embedding(vocabulary_size,vocabulary_size,_weight=torch.eye(vocabulary_size))
+        self.embedding = nn.Embedding(vocabulary_size,vocabulary_size)
         # self.embedding.weight = torch.eye(vocabulary_size)
-        self.embedding.weight.requires_grad = False
+        self.embedding.weight.requires_grad = True
         ## self.gru = nn.GRU(self.lstm_num_hidden,self.lstm_num_hidden)
         self.lstm = nn.LSTM(input_size=vocabulary_size,hidden_size=self.lstm_num_hidden,num_layers=lstm_num_layers)
         self.fc = nn.Linear(lstm_num_hidden,vocabulary_size)
@@ -41,7 +41,7 @@ class TextGenerationModel(nn.Module):
         # out = embedded
         # self.gru(out,)
         x = self.embedding(x)
-        output, (hidden,cn) = self.lstm(x,h)
+        output, (hidden,cell) = self.lstm(x,h)
         out = self.fc(output)
-        return out, (hidden, cn)
+        return out, (hidden, cell)
         # pass

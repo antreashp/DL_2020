@@ -32,10 +32,11 @@ from torch.utils.data import DataLoader
 
 from dataset import TextDataset
 from model import TextGenerationModel
-writer = SummaryWriter('runs/s2slstm')
+writer = SummaryWriter()
 ###############################################################################
 def my_accuracy(preds,trgs):
     preds = preds.argmax(dim=1)
+    
     acc = (preds == trgs).float().mean()
     # acc = [1 if preds[i] == trgs[i] else 0 for i in range(len(preds)) ].sum().mean()
     return acc
@@ -79,7 +80,8 @@ def train(config):
     # Setup the loss and optimizer
     criterion = torch.nn.CrossEntropyLoss()  # FIXME
     # print(model.parameters)
-    optimizer = torch.optim.RMSprop(model.parameters(),lr=config.learning_rate)  # FIXME
+
+    optimizer = torch.optim.Adam(model.parameters(),lr=config.learning_rate)  # FIXME
 
     for step, (batch_inputs, batch_targets) in enumerate(data_loader):
         model.train()
@@ -119,6 +121,9 @@ def train(config):
         # print(preds.shape)
         loss = criterion(preds,batch_targets)   # fixme
         # print(loss)
+        # print(batch_targets.shape)
+        # print(preds.shape)
+        # exit()
         accuracy = my_accuracy(preds,batch_targets)  # fixme
         writer.add_scalar('Loss',loss.item(),step)
         writer.add_scalar('Accuracy',accuracy*100,step)
@@ -142,13 +147,13 @@ def train(config):
 
         if (step + 1) % config.sample_every == 0:
             # Generate some sentences by sampling from the model
-            sentence = gen_sentence(model,dataset,30,device,temp = 0)
+            sentence = gen_sentence(model,dataset,config.seq_length,device,temp = 0)
             print('temp = 0 : ',sentence)
-            sentence = gen_sentence(model,dataset,30,device,temp = 0.5)
+            sentence = gen_sentence(model,dataset,config.seq_length,device,temp = 0.5)
             print('temp = 0.5 : ',sentence)
-            sentence = gen_sentence(model,dataset,30,device,temp = 1)
+            sentence = gen_sentence(model,dataset,config.seq_length,device,temp = 1)
             print('temp = 1 : ',sentence)
-            sentence = gen_sentence(model,dataset,30,device,temp = 2)
+            sentence = gen_sentence(model,dataset,config.seq_length,device,temp = 2)
             print('temp = 2 : ',sentence)
             pass
 
@@ -175,7 +180,7 @@ if __name__ == "__main__":
                         help="Path to a .txt file to train on")
     parser.add_argument('--seq_length', type=int, default=30,
                         help='Length of an input sequence')
-    parser.add_argument('--lstm_num_hidden', type=int, default=128,
+    parser.add_argument('--lstm_num_hidden', type=int, default=512,
                         help='Number of hidden units in the LSTM')
     parser.add_argument('--lstm_num_layers', type=int, default=2,
                         help='Number of LSTM layers in the model')
@@ -183,7 +188,7 @@ if __name__ == "__main__":
     # Training params
     parser.add_argument('--batch_size', type=int, default=32,
                         help='Number of examples to process in a batch')
-    parser.add_argument('--learning_rate', type=float, default=2e-3,
+    parser.add_argument('--learning_rate', type=float, default=1e-3,
                         help='Learning rate')
 
     # It is not necessary to implement the following three params,
