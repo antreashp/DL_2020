@@ -95,8 +95,8 @@ class GAN(nn.Module):
         interpolation_steps= interpolation_steps+2
         interpolations = []
         for i in range(batch_size):
-            z1 = torch.FloatTensor(np.random.normal(0,1,(args.z_dim)))
-            z2 = torch.FloatTensor(np.random.normal(0,1,(args.z_dim)))
+            z1 = torch.FloatTensor(np.random.normal(0,1,(args.z_dim))).to(device)
+            z2 = torch.FloatTensor(np.random.normal(0,1,(args.z_dim))).to(device)
             z = torch.empty(args.z_dim,interpolation_steps)
             
             for i in range(1,args.z_dim):
